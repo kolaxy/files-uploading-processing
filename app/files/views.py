@@ -1,12 +1,9 @@
-from django.shortcuts import render
-from django.db import transaction
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from files.serializers import FileSerializer
 from files.models import File
-from files.tasks import file_processing
 
 class FileCreateAPIView(APIView):
     serializer_class = FileSerializer
@@ -30,5 +27,4 @@ class FileListAPIView(ListAPIView):
         """
         Return a list of all files include processed status
         """
-        transaction.on_commit(lambda: file_processing.delay(123321))
         return File.objects.all()
