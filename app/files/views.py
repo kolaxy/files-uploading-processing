@@ -13,7 +13,7 @@ class FileCreateAPIView(APIView):
         """
         File upload
         """
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
