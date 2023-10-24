@@ -5,10 +5,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 @shared_task
-def file_processing(fileid) -> None:
+def file_processing(fileid: int) -> None:
     """
     Celery task.
-    Change "processed" boolean field to True.
+    Changing File's "processed" boolean field to True.
     Call with transaction.on_commit due successful DB transaction.
     """
     try:
