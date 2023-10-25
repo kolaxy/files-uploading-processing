@@ -32,13 +32,13 @@ cd files-uploading-processing
 ### Build
 
 ```commandline
-docker-compose build
+docker compose build
 ```
 
 ### Up
 
 ```commandline
-docker-compose up
+docker compose up
 ```
 
 # Rest API
@@ -85,3 +85,12 @@ docker-compose up
     {"file":"http://localhost:8000/media/production.yml"}
 
 
+# Track tasks
+
+## Flower 
+
+You can track celery tasks by Flower
+
+`http://localhost:5555/`
+
+![Alt text](flower.png)
