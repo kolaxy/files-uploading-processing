@@ -5,9 +5,6 @@ volumes:
   static_data: {}
 
 networks:
-  nginx-web-proxy:
-    driver: bridge
-    external: true
   files-link:
 
 services:
@@ -25,7 +22,6 @@ services:
       - postgres
       - redis
     networks:
-      - nginx-web-proxy
       - files-link
     env_file:
       - ./.env
@@ -75,7 +71,7 @@ services:
     container_name: files_flower_container
     restart: always
     ports:
-      - "5555:5555"  # You can change the host port if needed
+      - "5555:5555" 
     env_file:
       - ./.env
     networks:
