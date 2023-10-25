@@ -5,6 +5,9 @@ volumes:
   static_data: {}
 
 networks:
+  nginx-web-proxy:
+    driver: bridge
+    external: true
   files-link:
 
 services:
@@ -22,6 +25,7 @@ services:
       - postgres
       - redis
     networks:
+      - nginx-web-proxy
       - files-link
     env_file:
       - ./.env

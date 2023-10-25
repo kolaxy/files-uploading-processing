@@ -1,0 +1,12 @@
+name: Files App
+on: [pull_request, workflow_call]
+
+jobs:
+  files-app:
+    name: Files App
+    runs-on: ubuntu-latest
+    container: python:3.11.5-alpine3.18
+
+    services:
+      db:
+        
