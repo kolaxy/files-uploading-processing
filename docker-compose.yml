@@ -1,0 +1,69 @@
+version: "3.9"
+volumes:
+  postgres_data: {}
+  postgres_data_backups: {}
+  static_data: {}
+
+networks:
+  files-link:
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    image: files_django_image:latest
+    container_name: files_django_container
+    platform: linux/x86_64
+    volumes:
+      - static_data:/app/vol
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - files-link
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/postgres/Dockerfile
+    image: files_postgres_image:latest
+    container_name: files_postgres_container
+    restart: always
+    volumes:
+       - postgres_data:/var/lib/postgresql/data:Z
+       - postgres_data_backups:/backups:z
+    networks:
+     - files-link
+    env_file:
+      - ./.env
+
+
+  redis:
+    image: redis:7.2.1-alpine3.18
+    container_name: files_redis_container
+    restart: always
+    networks:
+      - files-link
+
+  celeryworker:
+    <<: *django
+    image: files_celeryworker_image:latest
+    container_name: files_celery_container
+    env_file:
+      - ./.env
+    restart: always
+    ports: []
+    command: /start-celeryworker
+    networks:
+      - files-link
+    depends_on:
+      - postgres
+      - redis
+
+

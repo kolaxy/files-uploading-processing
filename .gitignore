@@ -1,8 +1,5 @@
 /venv/
-.env
 __pycache__
 *.pyc
 /vol/
 *.log
-*.env
-db.sqlite3
