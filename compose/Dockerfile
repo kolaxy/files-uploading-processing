@@ -7,6 +7,8 @@ COPY ./app /app
 COPY ./scripts /scripts
 COPY ./compose/celery/worker/start /start-celeryworker
 
+EXPOSE 8000
+
 WORKDIR /app
 
 RUN python -m venv /py && \

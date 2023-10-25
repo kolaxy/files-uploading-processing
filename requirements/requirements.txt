@@ -21,3 +21,4 @@ tzdata==2023.3
 vine==5.0.0
 wcwidth==0.2.8
 psycopg2==2.9.9
+django-environ==0.11.2
