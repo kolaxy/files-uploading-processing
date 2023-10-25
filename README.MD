@@ -10,6 +10,7 @@ A Django REST API that allows files to be uploaded to a server and then processe
 - Psycopg 2.9.9
 - Redis 5.0.1
 - Celery 5.3.14
+- Flower 2.0.1
 - Pip
 
 ## Install&Run
@@ -53,3 +54,38 @@ docker-compose up
 `GET /files/`
 
     curl -i -H 'Accept: application/json' http://localhost:8000/files/
+
+    HTTP/1.1 200 OK
+    Date: Wed, 25 Oct 2023 11:13:26 GMT
+    Server: WSGIServer/0.2 CPython/3.11.5
+    Content-Type: application/json
+    Vary: Accept, Cookie
+    Allow: GET, HEAD, OPTIONS
+    X-Frame-Options: DENY
+    Content-Length: 2
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: same-origin
+    Cross-Origin-Opener-Policy: same-origin
+
+    []
+
+
+`POST /upload/`
+
+    curl -i -X POST -F "file=@/pathToYourFile" http://localhost:8000/upload/
+
+    HTTP/1.1 201 Created
+    Date: Wed, 25 Oct 2023 11:16:37 GMT
+    Server: WSGIServer/0.2 CPython/3.11.5
+    Content-Type: application/json
+    Vary: Accept, Cookie
+    Allow: POST, OPTIONS
+    X-Frame-Options: DENY
+    Content-Length: 53
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: same-origin
+    Cross-Origin-Opener-Policy: same-origin
+
+    {"file":"http://localhost:8000/media/production.yml"}
+
+

@@ -66,4 +66,15 @@ services:
       - postgres
       - redis
 
-
+  flower:
+    image: mher/flower:latest
+    container_name: files_flower_container
+    restart: always
+    ports:
+      - "5555:5555"  # You can change the host port if needed
+    env_file:
+      - ./.env
+    networks:
+      - files-link
+    depends_on:
+      - celeryworker
