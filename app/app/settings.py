@@ -146,8 +146,18 @@ app = Celery('app')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'  
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379/0')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': REDIS_URL,
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    }
+}
+
 
 BROKER_URL = os.getenv('REDIS_URL')
 CELERY_RESULT_BACKEND = os.getenv('REDIS_URL')
