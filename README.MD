@@ -42,13 +42,7 @@ docker-compose up
 ```
 
 # Rest API
-
-## Upload file
-
-`POST /upload/`
-
     
-
 ## Get list of files with processed status
 
 `GET /files/`
@@ -69,6 +63,8 @@ docker-compose up
 
     []
 
+
+## Upload file
 
 `POST /upload/`
 
