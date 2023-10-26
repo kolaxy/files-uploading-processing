@@ -8,11 +8,5 @@ class FileSerializer(serializers.ModelSerializer):
         model = File
         fields = '__all__'
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        request = self.context.get('request')
-
-        if request and request.method == 'POST':
-            data = {'file': data['file']}
-
-        return data
+    uploaded_at = serializers.DateTimeField(read_only=True)
+    processed = serializers.BooleanField(read_only=True)

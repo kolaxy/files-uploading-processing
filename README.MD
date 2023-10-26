@@ -85,14 +85,19 @@ pip install -r requirements/development.txt
 ### .env swap
 
 There is a `local.env` file for the local development.
-By default `.env` file is used by Docker. To change it, run `env_swap.sh`
+By default `.env` file is used by Docker. To change it, run `swap_env.sh`
 Names will be changed.
 
 ```commandline
-source env_swap.sh
+source swap_env.sh
 ```
+    (venv) [nikolay@fedora files-uploading-processing] (master)$ source swap_env.sh
+    ENV_TYPE was set to: LOCAL
+
 Now your environment for the local development is right configured.
 If you want to run app in Docker, make a swap one more time.
+
+![Alt text](swap_env.png)
 
 ### Migrate and run
 ```commanline
@@ -109,49 +114,79 @@ celery -A app worker -l info -P solo
 
 # Rest API
     
-## Get list of files with processed status
-
-`GET /files/`
-
-    curl -i -H 'Accept: application/json' http://localhost:8000/files/
-
-    HTTP/1.1 200 OK
-    Date: Wed, 25 Oct 2023 11:13:26 GMT
-    Server: WSGIServer/0.2 CPython/3.11.5
-    Content-Type: application/json
-    Vary: Accept, Cookie
-    Allow: GET, HEAD, OPTIONS
-    X-Frame-Options: DENY
-    Content-Length: 2
-    X-Content-Type-Options: nosniff
-    Referrer-Policy: same-origin
-    Cross-Origin-Opener-Policy: same-origin
-
-    []
-
-![Files](files.png)
-
 ## Upload file
 
-`POST /upload/`
+#### POST /upload/
 
-    curl -i -X POST -F "file=@/pathToYourFile" http://localhost:8000/upload/
+This method allows the user to send only `file` to the server. (Added RO to the serializer `FileSerializer`)
+Rerurning `file`, `uploaded_at` and `processed` 
 
+```commanline
+curl -i -X POST -F "file=@files.png" http://localhost:8000/upload/
+```
+    
     HTTP/1.1 201 Created
-    Date: Wed, 25 Oct 2023 11:16:37 GMT
-    Server: WSGIServer/0.2 CPython/3.11.5
+    Date: Thu, 26 Oct 2023 13:14:10 GMT
+    Server: WSGIServer/0.2 CPython/3.11.6
     Content-Type: application/json
     Vary: Accept, Cookie
     Allow: POST, OPTIONS
     X-Frame-Options: DENY
-    Content-Length: 53
+    Content-Length: 123
     X-Content-Type-Options: nosniff
     Referrer-Policy: same-origin
     Cross-Origin-Opener-Policy: same-origin
 
-    {"file":"http://localhost:8000/media/production.yml"}
+    {
+        "id": 24,
+        "uploaded_at": "2023-10-26T16:14:10.330994+03:00",
+        "processed": false,
+        "file": "http://localhost:8000/media/files.png"
+    }
 
 ![Upload](upload.png)
+
+## Get list of files with processed status
+
+#### GET /files/
+```commandline
+curl -i -X GET http://localhost:8000/files/
+```
+
+    HTTP/1.1 200 OK
+    Date: Thu, 26 Oct 2023 13:15:28 GMT
+    Server: WSGIServer/0.2 CPython/3.11.6
+    Content-Type: application/json
+    Vary: Accept, Cookie
+    Allow: GET, HEAD, OPTIONS
+    X-Frame-Options: DENY
+    Content-Length: 124
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: same-origin
+    Cross-Origin-Opener-Policy: same-origin
+
+    [
+        {
+            "id": 24,
+            "uploaded_at": "2023-10-26T16:14:10.330994+03:00",
+            "processed": true,
+            "file": "http://localhost:8000/media/files.png"
+        },
+        {
+            "id": 26,
+            "uploaded_at": "2023-10-26T16:23:46.582734+03:00",
+            "processed": true,
+            "file": "http://localhost:8000/media/files_TDwjqsq.png"
+        },
+        {
+            "id": 27,
+            "uploaded_at": "2023-10-26T16:23:47.307746+03:00",
+            "processed": true,
+            "file": "http://localhost:8000/media/files_ngYGDWv.png"
+        },
+    ]
+
+![List](list.png)
 
 # Track tasks
 

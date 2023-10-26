@@ -14,7 +14,8 @@ if [ -e .env ] && [ -e local.env ]; then
   mv "$temp_env" local.env
   mv "$temp_local_env" .env
 
-  echo "File names swapped successfully!"
+  env_type=$(cat .env | grep "ENV_TYPE" | cut -d '=' -f 2)
+  echo "ENV_TYPE was set to: $env_type"
 else
   echo "Something went wrong. Check your .env and local.env files"
 fi
