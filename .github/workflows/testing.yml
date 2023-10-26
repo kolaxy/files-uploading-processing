@@ -40,7 +40,7 @@ jobs:
 
     - name: Copy local.env
       run: |
-        cp local.env app/.env
+        cp local.env .env
       working-directory: ${{ github.workspace }}
 
     - name: Lint with flake8
