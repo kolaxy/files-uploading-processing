@@ -3,40 +3,44 @@ name: Django Tests
 on:
   push:
     branches:
-      -master
+      - master
   
   pull_request:
     branches:
-      -master
+      - master
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set Up Python 3.11.5
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set Up Python 3.11
       uses: actions/setup-python@v2
       with:
-        python-version: 3.11.5
+        python-version: 3.11
+
     - name: Install dependencies
-      run:
+      run: |
         python -m pip install --upgrade pip
         pip install -r app/requirements/requirements.txt
+
     - name: Lint with flake8
       run: |
         pip install flake8
-        flake8
-      working-directory: ./app 
+        flake8 app
+      working-directory: ${{ github.workspace }}
+
     - name: Coverage Report
       run: |
         pip install coverage
-        coverage run manage.py test
+        coverage run --source=app manage.py test
         coverage report
-      working-directory: ./app 
+      working-directory: ${{ github.workspace }}
+
     - name: Django Testing
       run: |
-        python3 manage.py test
-      working-directory: ./app 
-
+        python manage.py test
+      working-directory: ${{ github.workspace }}/app
