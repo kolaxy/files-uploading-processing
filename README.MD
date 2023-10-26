@@ -211,14 +211,14 @@ files/__init__.py          0      0   100%
 files/admin.py             3      0   100%
 files/apps.py              4      0   100%
 files/models.py            8      0   100%
-files/serializers.py      12      0   100%
+files/serializers.py       8      0   100%
 files/tasks.py            12      0   100%
 files/tests.py            66      0   100%
 files/urls.py              3      0   100%
 files/views.py            28      3    89%
 manage.py                 12      2    83%
 ------------------------------------------
-TOTAL                    197      5    97%
+TOTAL                    193      5    97%
 ```
 
 ## Manual testing
