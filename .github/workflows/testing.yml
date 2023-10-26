@@ -31,14 +31,14 @@ jobs:
       run: |
         pip install flake8
         flake8 app
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/app
 
     - name: Coverage Report
       run: |
         pip install coverage
         coverage run --source=app manage.py test
         coverage report
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/app
 
     - name: Django Testing
       run: |
