@@ -4,6 +4,7 @@ from .models import File
 import logging
 logger = logging.getLogger(__name__)
 
+
 @shared_task
 def file_processing(fileid: int) -> None:
     """

@@ -10,6 +10,7 @@ from files.tasks import file_processing
 import logging
 logger = logging.getLogger(__name__)
 
+
 class FileCreateAPIView(APIView):
     serializer_class = FileSerializer
 
@@ -27,12 +28,11 @@ class FileCreateAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.exception("An error occurred during file uploading")
-            return Response({"detail": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"detail": f"Internal server error: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class FileListAPIView(ListAPIView):
     serializer_class = FileSerializer
-
 
     def get_queryset(self) -> Response:
         """

@@ -8,8 +8,11 @@ class FileSerializer(serializers.ModelSerializer):
         model = File
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super(FileSerializer, self).__init__(*args, **kwargs)
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get('request')
 
-        if self.context['request'].method == 'POST':
-            self.fields = {'file': self.fields['file']}
+        if request and request.method == 'POST':
+            data = {'file': data['file']}
+
+        return data

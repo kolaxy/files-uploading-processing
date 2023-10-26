@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 from files.views import FileCreateAPIView, FileListAPIView
 urlpatterns = [
     path('upload/', FileCreateAPIView.as_view(), name='upload'),
