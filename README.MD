@@ -190,7 +190,7 @@ curl -i -X GET http://localhost:8000/files/
 
 ## Get file by id
 
-#### GET /files/< int:pk >
+#### GET /files/< int:pk >/
 
 ```commandline
 curl -i -X GET http://localhost:8000/files/33/
