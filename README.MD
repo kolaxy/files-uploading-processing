@@ -188,6 +188,8 @@ curl -i -X GET http://localhost:8000/files/
 
 ![List](list.png)
 
+## Get file by id
+
 #### GET /files/< int:pk >
 
 ```commandline
