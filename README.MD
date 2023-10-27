@@ -188,6 +188,32 @@ curl -i -X GET http://localhost:8000/files/
 
 ![List](list.png)
 
+#### GET /files/< int:pk >
+
+```commandline
+curl -i -X GET http://localhost:8000/files/33/
+```
+    HTTP/1.1 200 OK
+    Date: Fri, 27 Oct 2023 12:37:38 GMT
+    Server: WSGIServer/0.2 CPython/3.11.6
+    Content-Type: application/json
+    Vary: Accept, Cookie
+    Allow: GET, HEAD, OPTIONS
+    X-Frame-Options: DENY
+    Content-Length: 133
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: same-origin
+    Cross-Origin-Opener-Policy: same-origin
+
+    {
+        "id": 33,
+        "uploaded_at": "2023-10-26T16:30:16.868856+03:00",
+        "processed": true,
+        "file": "/media/protonvpn-beta-release-1.0.1-2.noarch.rpm"
+    }
+
+![filedetail](filedetail.png)
+
 # Track tasks
 
 ## Flower 
@@ -213,12 +239,12 @@ files/apps.py              4      0   100%
 files/models.py            8      0   100%
 files/serializers.py       8      0   100%
 files/tasks.py            12      0   100%
-files/tests.py            66      0   100%
+files/tests.py            97      0   100%
 files/urls.py              3      0   100%
-files/views.py            28      3    89%
+files/views.py            37      3    92%
 manage.py                 12      2    83%
 ------------------------------------------
-TOTAL                    193      5    97%
+TOTAL                    233      5    98%
 ```
 
 ## Manual testing
