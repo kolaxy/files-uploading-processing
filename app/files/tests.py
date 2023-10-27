@@ -5,8 +5,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from unittest.mock import patch
 from rest_framework.test import APIClient
 from rest_framework import status
-
 from .models import File
+from .serializers import FileSerializer
 from .tasks import file_processing
 
 
@@ -108,3 +108,50 @@ class FileProcessingTestCase(TestCase):
 
         self.assertFalse(file.processed)
         self.assertTrue(mock_logger_error.called)
+
+
+class FileDetailApiViewTest(TestCase):
+    def setUp(self):
+        # Create test files
+        f1 = SimpleUploadedFile("test_file1.txt", b"file_content")
+        self.file1 = File.objects.create(file=f1)
+
+        f2 = SimpleUploadedFile("test_file2.txt", b"file_content")
+        self.file2 = File.objects.create(file=f2)
+
+    def test_get_existing_file(self):
+        # Try to get existing file (2 times)
+        client = APIClient()
+        response1 = client.get(f'/files/{self.file1.pk}/')
+        response2 = client.get(f'/files/{self.file2.pk}/')
+
+        expected_data1 = FileSerializer(self.file1).data
+        expected_data2 = FileSerializer(self.file2).data
+
+        self.assertEqual(response1.status_code, status.HTTP_200_OK)
+        self.assertEqual(response1.data, expected_data1)
+
+        self.assertEqual(response2.status_code, status.HTTP_200_OK)
+        self.assertEqual(response2.data, expected_data2)
+
+        delete_test_file("test_file1.txt")
+        delete_test_file("test_file2.txt")
+
+    def test_get_non_existing_file(self):
+        # Try ro get non existing file (2 times)
+        client = APIClient()
+
+        not_real_pk1 = 1337
+        not_real_pk2 = 3771
+
+        response1 = client.get(f'/files/{not_real_pk1}/')
+        response2 = client.get(f'/files/{not_real_pk2}/')
+
+        self.assertEqual(response1.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response1.data, {"Error": "File not found."})
+
+        self.assertEqual(response2.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response2.data, {"Error": "File not found."})
+
+        delete_test_file("test_file1.txt")
+        delete_test_file("test_file2.txt")

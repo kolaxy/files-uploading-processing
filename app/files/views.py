@@ -39,3 +39,15 @@ class FileListAPIView(ListAPIView):
         Return a list of all files include processed status
         """
         return File.objects.all()
+
+
+class FileDetailApiView(APIView):
+
+    def get(self, request, pk):
+        try:
+            obj = File.objects.get(pk=pk)
+            serializer = FileSerializer(obj)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except File.DoesNotExist as e:
+            logger.error(f"File with pk {pk} not found: {str(e)}")
+            return Response({"Error": "File not found."}, status=status.HTTP_404_NOT_FOUND)
